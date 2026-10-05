@@ -26,19 +26,32 @@ function onVote(player, answer, isCorrect) {
     show();
 }
 
-// The countdown stops: the time is up, everybody answered, or the quiz master paused it
+// The countdown stops: everybody answered, the time is up, or the quiz master paused it
 function onEndCountdown(isPaused) {
-    if (isPaused)
+    if (!isPaused)
+        summary();
+}
+
+// The time to answer ran out. Depending on the settings Quiz Show calls onEndCountdown() after this
+// or not.
+function onTimeout() {
+    summary();
+}
+
+// For the quiz master: how often each answer was given, in the Script console of the Director
+let summaryDone = false;
+function summary() {
+    if (summaryDone)
         return;
+    summaryDone = true;
 
     // count each answer, like { A: 3, C: 5 }
     const counts = {};
     for (const answer of Object.values(answers))
         counts[answer] = (counts[answer] || 0) + 1;
 
-    // for the quiz master: the Script console in the Director, never on the screen
-    const summary = Object.keys(counts).sort().map(answer => answer + ' ' + counts[answer]).join(', ');
-    console.log(summary ? 'Answers: ' + summary : 'Nobody answered');
+    const text = Object.keys(counts).sort().map(answer => answer + ' ' + counts[answer]).join(', ');
+    console.log(text ? 'Answers: ' + text : 'Nobody answered');
 }
 
 function show() {

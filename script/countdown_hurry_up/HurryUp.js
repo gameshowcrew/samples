@@ -18,6 +18,7 @@ const musicFrom = 10;           // seconds left when the music starts
 
 let message = '';               // the message of the countdown, to show again after a pause
 let musicPlaying = false;       // to play on after a pause
+let timeIsUp = false;
 
 function onLoadSlide(slide) {
     show('');
@@ -52,15 +53,19 @@ function onEndCountdown(isPaused) {
         if (musicPlaying)
             qx.sink.sound.pauseMusic('tension');
     } else {
-        // everybody answered before the time was up, onTimeout() comes after this when it ran out
-        show('');
+        // the countdown is over; when the time ran out, onTimeout() already said so
+        if (!timeIsUp)
+            show('');
         stopMusic();
     }
 }
 
-// The time to answer ran out
+// The time to answer ran out. Depending on the settings Quiz Show calls onEndCountdown() after this
+// or not.
 function onTimeout() {
+    timeIsUp = true;
     show("Time's up!");
+    stopMusic();
 }
 
 // The slide is left, for any reason, the music must not go on

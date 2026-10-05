@@ -55,9 +55,21 @@ function onVote(player, answer, isCorrect) {
     correct[player.keypad] = isCorrect;
 }
 
-// The countdown stops: the time is up, everybody answered, or the quiz master paused it
+// The countdown stops: everybody answered, the time is up, or the quiz master paused it
 function onEndCountdown(isPaused) {
-    if (isPaused || judged || qx.slide.slideType !== SlideType.Question)
+    if (!isPaused)
+        judge();
+}
+
+// The time to answer ran out. Depending on the settings Quiz Show calls onEndCountdown() after this
+// or not, judge() counts each question once.
+function onTimeout() {
+    judge();
+}
+
+// Update the streaks with the answers to this question
+function judge() {
+    if (judged || qx.slide.slideType !== SlideType.Question)
         return;
     judged = true;
 
