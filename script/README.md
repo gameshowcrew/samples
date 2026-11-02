@@ -10,6 +10,7 @@ explains it. From simple to more elaborate:
 | Example | What it shows | Script features |
 | --- | --- | --- |
 | [live_clock](live_clock) | A live clock and a countdown to the start of the quiz on a banner slide | `setInterval()`, `[jsvar.name]` on a slide |
+| [wager_timer](wager_timer) | A timer on a wager slide that goes on to the question when the time is up | `setInterval()`, `qx.sink.gotoSlide()` |
 | [vote_counter](vote_counter) | "7 of 12 teams answered" while the countdown runs | `onVote()`, `qx.teams` |
 | [countdown_hurry_up](countdown_hurry_up) | "Hurry up!" in the last seconds, optional tension music, "Time's up!" | `onCountdownTick()`, `onTimeout()`, `qx.sink.sound` |
 | [random_question_order](random_question_order) | 5 random questions out of a pool, in a random order | `onNextSlide()`, values that stay between slides |
